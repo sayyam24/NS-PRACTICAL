@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <map>
+using namespace std;
+
+string vinegar_cipher(string text, string key, bool encrypt) {
+    string result = "";
+    map<char, char> cipher_map;
+    
+    // Create the cipher map
+    for (int i = 0; i < key.length(); ++i) {
+        cipher_map[encrypt ? 'A' + i : key[i]] = encrypt ? key[i] : 'A' + i;
+    }
+    
+    // Perform encryption or decryption
+    for (char c : text) {
+        if (isalpha(c)) {
+            char transformed_char = cipher_map[toupper(c)];
+            result += islower(c) ? tolower(transformed_char) : transformed_char;
+        } else {
+            result += c;
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+    string plaintext = "Hello, World!";
+    string key = "VINEGAR";
+    
+    string encrypted_text = vinegar_cipher(plaintext, key, true);
+    cout << "Encrypted text: " << encrypted_text << endl;
+    
+    string decrypted_text = vinegar_cipher(encrypted_text, key, false);
+    cout << "Decrypted text: " << decrypted_text << endl;
+    
+    return 0;
+}
